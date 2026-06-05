@@ -42,7 +42,7 @@ VIDEO_CROPPED_DIR.mkdir(parents=True, exist_ok=True)
 # =====================================================================
 SAMPLE_FRAMES = int(os.getenv('OCR_SAMPLE_FRAMES', '15'))
 CONFIDENCE_THRESHOLD = float(os.getenv('OCR_CONFIDENCE_THRESHOLD', '0.5'))
-SUBTITLE_REGION_RATIO = float(os.getenv('SUBTITLE_REGION_RATIO', '0.35'))
+SUBTITLE_REGION_RATIO = float(os.getenv('SUBTITLE_REGION_RATIO', '0.30'))
 
 CENTER_BIAS_RATIO = 0.25
 MIN_HIT_RATIO = 0.12
@@ -130,6 +130,7 @@ def detect_subtitle_and_position(video_path):
 
     w, h, total_frames = get_video_info(video_path)
     if total_frames == 0:
+        cap.release()
         cap.release()
         return False, SUBTITLE_REGION_RATIO
 

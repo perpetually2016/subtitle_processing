@@ -46,7 +46,14 @@ subtitle_processing/
    - **纵向靠下**:文字框底部必须落在画面**底部 35%** 区域内(滤顶部标题)。
 4. **命中率判定**:命中帧数 / 采样帧数 ≥ `0.12` → 判定"有字幕"。
 5. **(仅 ocr_ffmpeg.py)动态裁剪**:记录所有命中字幕里**最高的顶端 Y**,据此算裁剪高度
-   并上切 `6px` 余量;用 `SUBTITLE_REGION_RATIO=0.35` 兜底防止切过头。
+   并上切 `6px` 余量;用 `SUBTITLE_REGION_RATIO` 兜底防止切过头
+   (`ocr_ffmpeg.py` 默认 `0.30`,`paddleocr_word.py` 默认 `0.35`)。
+
+> **关于 `CENTER_BIAS_RATIO = 0.25` 的设计取舍**:该参数假设字幕位于画面中央区域。
+> - **好处**:能有效过滤边缘的水印、台标,避免误判。
+> - **坏处**:对**确实在左下角 / 右下角等边缘**的字幕会漏检。
+>
+> 若你的片源字幕常在边缘,可调大此值(放宽居中约束)或针对性关闭该过滤。
 
 ---
 
@@ -155,7 +162,7 @@ python ocr_ffmpeg.py
 | `VIDEO_INPUT_DIR` | `../video` | 输入目录(仅 `ocr_ffmpeg.py` 支持) |
 | `VIDEO_OUTPUT_DIR` | 仓库根 | 输出根目录(仅 `ocr_ffmpeg.py` 支持) |
 | `OCR_CONFIDENCE_THRESHOLD` | `0.5` | OCR 置信度阈值 |
-| `SUBTITLE_REGION_RATIO` | `0.35` | 底部字幕区域占比 / 裁剪兜底比例 |
+| `SUBTITLE_REGION_RATIO` | `0.30`(ffmpeg)/ `0.35`(word) | 底部字幕区域占比 / 裁剪兜底比例 |
 | `USE_GPU_FFMPEG` | `True`(代码内) | FFmpeg 裁剪是否用 `h264_nvenc`;无 NVENC 改 `False` 走 `libx264` |
 
 ---
