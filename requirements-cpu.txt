@@ -1,0 +1,9 @@
+# CPU 环境依赖(无显卡 / 调试用)
+#   pip install -r requirements-cpu.txt
+# 注意:脚本里写死了 use_gpu=True,CPU 运行需把 PaddleOCR(... use_gpu=True ...) 改为 use_gpu=False。
+# CPU 无需 cuDNN。
+
+paddlepaddle==2.6.2
+paddleocr==2.8.1
+opencv-python==4.9.0.80
+numpy==1.26.3            # 必须 <2,paddleocr 2.x 不兼容 numpy 2.x

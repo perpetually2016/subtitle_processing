@@ -1,0 +1,16 @@
+# GPU 环境依赖(实测:Python 3.10 + CUDA 12.x + A100)
+# 注意:paddlepaddle-gpu 需从 paddle 官方 cu120 源安装,见 setup_env.sh / README。
+#   pip install -r requirements-gpu.txt -i https://www.paddlepaddle.org.cn/packages/stable/cu120/ \
+#       --extra-index-url https://pypi.org/simple
+
+# --- 核心 ---
+paddlepaddle-gpu==2.6.2.post120
+paddleocr==2.8.1
+opencv-python==4.9.0.80
+numpy==1.26.3            # 必须 <2,paddleocr 2.x 不兼容 numpy 2.x
+
+# --- GPU 运行库:paddle-gpu 不自带 cuDNN,必须单独装 ---
+# 装完还需手动建软链 libcudnn.so -> libcudnn.so.8,见 setup_env.sh
+nvidia-cudnn-cu12==8.9.7.29
+nvidia-cublas-cu12==12.9.2.10
+nvidia-cuda-nvrtc-cu12==12.9.86
